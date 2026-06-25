@@ -1,0 +1,22 @@
+{
+  "name": "airport-pickup-scheduler-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Airport Pickup & Delivery Scheduler",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "dev": "live-server --port=3000",
+    "build": "echo 'Build script here'"
+  },
+  "keywords": [
+    "airport",
+    "pickup",
+    "delivery",
+    "scheduler"
+  ],
+  "author": "Team ORBEM",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}

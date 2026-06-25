@@ -1,0 +1,28 @@
+{
+  "name": "airport-pickup-scheduler-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Airport Pickup & Delivery Scheduler",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "airport",
+    "pickup",
+    "delivery",
+    "scheduler",
+    "api"
+  ],
+  "author": "Team ORBEM",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

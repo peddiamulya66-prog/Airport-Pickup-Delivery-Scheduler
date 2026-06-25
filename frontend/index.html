@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport Pickup & Delivery Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>✈️ Airport Pickup & Delivery Scheduler</h1>
+                <p class="company">ORBEM Solutions Private Limited - Admin Dashboard</p>
+            </div>
+            <div class="user-info">
+                <span id="userName" class="user-name">Admin</span>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" data-tab="form">New Request</button>
+            <button class="nav-btn" data-tab="dashboard">Dashboard</button>
+            <button class="nav-btn" data-tab="details">Details</button>
+        </nav>
+
+        <!-- Form Tab -->
+        <section id="form-tab" class="tab-content active">
+            <div class="form-container">
+                <h2>Create Pickup/Delivery Request</h2>
+                <form id="pickupForm">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name *</label>
+                        <input type="text" id="customerName" name="customerName" required placeholder="Enter customer name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerEmail">Customer Email</label>
+                        <input type="email" id="customerEmail" name="customerEmail" placeholder="Enter customer email">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="originAirport">Origin Airport *</label>
+                            <input type="text" id="originAirport" name="originAirport" required placeholder="e.g., DEL, BOM">
+                        </div>
+                        <div class="form-group">
+                            <label for="destinationAirport">Destination Airport *</label>
+                            <input type="text" id="destinationAirport" name="destinationAirport" required placeholder="e.g., DEL, BOM">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupCity">Pickup City *</label>
+                            <input type="text" id="pickupCity" name="pickupCity" required placeholder="e.g., Delhi, Mumbai">
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryAddress">Delivery Address *</label>
+                            <input type="text" id="deliveryAddress" name="deliveryAddress" required placeholder="Enter delivery address">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cargoType">Cargo Type *</label>
+                            <select id="cargoType" name="cargoType" required>
+                                <option value="">Select cargo type</option>
+                                <option value="documents">Documents</option>
+                                <option value="samples">Samples</option>
+                                <option value="parts">Parts</option>
+                                <option value="perishables">Perishables</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="packageCount">Package Count *</label>
+                            <input type="number" id="packageCount" name="packageCount" required min="1" placeholder="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="actualWeight">Actual Weight (kg) *</label>
+                            <input type="number" id="actualWeight" name="actualWeight" required step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensions">Dimensions (L×W×H cm)</label>
+                            <input type="text" id="dimensions" name="dimensions" placeholder="e.g., 10×10×10">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                    <div id="formStatus" class="status-message"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Dashboard Tab -->
+        <section id="dashboard-tab" class="tab-content">
+            <div class="dashboard-container">
+                <h2>Dashboard</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Total Requests</h3>
+                        <p class="stat-number" id="totalRequests">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending</h3>
+                        <p class="stat-number" id="pendingRequests">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>In Transit</h3>
+                        <p class="stat-number" id="inTransitRequests">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Completed</h3>
+                        <p class="stat-number" id="completedRequests">0</p>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <h3>All Requests</h3>
+                    <table id="requestsTable" class="requests-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Pickup → Destination</th>
+                                <th>Cargo Type</th>
+                                <th>Delivery Partner</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="8" class="empty-state">No requests yet. Create one to get started!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container" style="margin-top: 30px;">
+                    <h3>Delivery Partner Performance</h3>
+                    <table id="driversTable" class="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Driver</th>
+                                <th>Active Jobs</th>
+                                <th>Completed</th>
+                                <th>Earnings</th>
+                            </tr>
+                        </thead>
+                        <tbody id="driversBody">
+                            <tr>
+                                <td colspan="4" class="empty-state">No driver activity yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details Tab -->
+        <section id="details-tab" class="tab-content">
+            <div class="details-container">
+                <h2>Request Details</h2>
+                <div id="detailsContent" class="details-content">
+                    <p>Select a request from the dashboard to view details.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="switchTab('dashboard')">Back to Dashboard</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check authentication on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!verifyRole(['admin'])) {
+                return;
+            }
+            const user = getCurrentUser();
+            document.getElementById('userName').textContent = user.name;
+        });
+
+        // Helper functions
+        function getCurrentUser() {
+            return JSON.parse(localStorage.getItem('currentUser'));
+        }
+
+        function verifyRole(allowedRoles) {
+            const user = getCurrentUser();
+            if (!user || !allowedRoles.includes(user.role)) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

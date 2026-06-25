@@ -1,0 +1,278 @@
+/* Driver Dashboard Styles */
+
+.driver-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.stat-card h3 {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.assignments-table,
+.completed-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.assignments-table thead,
+.completed-table thead {
+    background: #f9f9f9;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.assignments-table th,
+.completed-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+}
+
+.assignments-table tbody tr,
+.completed-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+.assignments-table tbody tr:hover,
+.completed-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.assignments-table td,
+.completed-table td {
+    padding: 15px;
+    color: #666;
+}
+
+.empty-state {
+    text-align: center;
+    color: #999 !important;
+    font-style: italic;
+    padding: 20px !important;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.accepted {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-badge.completed {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Jobs List */
+.jobs-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 0.95em;
+}
+
+.jobs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.job-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.job-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.job-card h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.job-card p {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.job-card .earning {
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 10px;
+    font-size: 1.1em;
+}
+
+.job-card .btn {
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.detail-row {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.detail-value {
+    color: #333;
+    font-size: 1.05em;
+    margin-top: 3px;
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    color: white;
+    font-weight: 600;
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: #667eea;
+}
+
+@media (max-width: 768px) {
+    .driver-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .jobs-list {
+        grid-template-columns: 1fr;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+}
