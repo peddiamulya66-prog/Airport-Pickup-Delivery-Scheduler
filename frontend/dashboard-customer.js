@@ -104,7 +104,7 @@ function saveShipment(data) {
 function displayShipments() {
     const user = getCurrentUser();
     let requests = JSON.parse(localStorage.getItem('pickupRequests')) || [];
-    
+
     // Filter for current customer
     const shipments = requests.filter(r => r.customerId === user.email);
 
@@ -145,7 +145,7 @@ function updateTable(shipments) {
 // Track Shipment
 function trackShipment() {
     const trackingId = document.getElementById('trackingId').value.trim();
-    
+
     if (!trackingId) {
         alert('Please enter a Shipment ID');
         return;
@@ -172,7 +172,7 @@ function viewShipmentTracking(shipmentId) {
     }
 
     const result = document.getElementById('trackingResult');
-    
+
     let timelineHtml = '<div class="tracking-timeline">';
     shipment.timeline.forEach(item => {
         timelineHtml += `
@@ -233,7 +233,7 @@ function viewShipmentTracking(shipmentId) {
 
 function verifyOTP(shipmentId) {
     const otpInput = document.getElementById('otpInput').value.trim();
-    
+
     if (!otpInput) {
         showOtpError('Please enter OTP', shipmentId);
         return;

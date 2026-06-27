@@ -29,7 +29,6 @@ app.post('/api/requests', (req, res) => {
     try {
         const {
             customerName,
-            customerEmail,
             originAirport,
             destinationAirport,
             pickupCity,
@@ -42,7 +41,7 @@ app.post('/api/requests', (req, res) => {
         } = req.body;
 
         // Validation
-        if (!customerName || !customerEmail || !pickupCity || !deliveryAddress) {
+        if (!customerName || !originAirport || !destinationAirport || !pickupCity || !deliveryAddress) {
             return res.status(400).json({
                 error: 'Missing required fields'
             });
@@ -51,18 +50,17 @@ app.post('/api/requests', (req, res) => {
         const newRequest = {
             id: uuidv4(),
             customerName,
-            customerEmail,
-            originAirport: originAirport || '',
-            destinationAirport: destinationAirport || '',
+            originAirport,
+            destinationAirport,
             pickupCity,
             deliveryAddress,
-            cargoType: cargoType || 'other',
-            packageCount: parseInt(packageCount) || 1,
-            actualWeight: parseFloat(actualWeight) || 0,
-            dimensions: dimensions || '',
-            notes: notes || '',
+            cargoType,
+            packageCount: parseInt(packageCount),
+            actualWeight: parseFloat(actualWeight),
+            dimensions,
+            notes,
             status: 'pending',
-            owner: customerName,
+            owner: 'System',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             history: [
@@ -93,16 +91,7 @@ app.post('/api/requests', (req, res) => {
 // Get all pickup requests
 app.get('/api/requests', (req, res) => {
     try {
-        const {
-            status,
-            cargoType,
-            customerEmail,
-            driverId,
-            originAirport,
-            destinationAirport,
-            limit = 100,
-            offset = 0
-        } = req.query;
+        const { status, cargoType, limit = 100, offset = 0 } = req.query;
 
         let filtered = pickupRequests;
 
@@ -112,18 +101,6 @@ app.get('/api/requests', (req, res) => {
         }
         if (cargoType) {
             filtered = filtered.filter(r => r.cargoType === cargoType);
-        }
-        if (customerEmail) {
-            filtered = filtered.filter(r => r.customerEmail === customerEmail);
-        }
-        if (driverId) {
-            filtered = filtered.filter(r => (r.driver && r.driver.id === driverId) || r.driverId === driverId);
-        }
-        if (originAirport) {
-            filtered = filtered.filter(r => r.originAirport === originAirport);
-        }
-        if (destinationAirport) {
-            filtered = filtered.filter(r => r.destinationAirport === destinationAirport);
         }
 
         // Apply pagination
@@ -294,22 +271,12 @@ app.post('/api/requests/:id/assign-driver', (req, res) => {
         request.driver = {
             id: driverId,
             name: driverName,
-            vehicleNumber: vehicleNumber || '',
+            vehicleNumber,
             assignedAt: new Date().toISOString()
         };
-        request.driverId = driverId;
-        request.driverName = driverName;
+
         request.status = 'in-progress';
         request.updatedAt = new Date().toISOString();
-
-        if (!request.history) {
-            request.history = [];
-        }
-        request.history.push({
-            status: 'in-progress',
-            timestamp: new Date().toISOString(),
-            note: `Assigned to driver ${driverName}`
-        });
 
         res.json({
             success: true,
@@ -516,11 +483,11 @@ app.post('/api/otp/verify', (req, res) => {
         request.otpVerified = true;
         request.deliveredAt = new Date().toISOString();
         request.updatedAt = new Date().toISOString();
-        
+
         if (!request.history) {
             request.history = [];
         }
-        
+
         request.history.push({
             status: 'completed',
             timestamp: new Date().toISOString(),

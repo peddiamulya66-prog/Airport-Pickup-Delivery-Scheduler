@@ -1,5 +1,9 @@
 // Driver Dashboard Logic
-const API_BASE_URL = 'http://localhost:5000/api';
+
+// Generate 6-digit OTP
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 // Verify user is logged in as driver
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTabNavigation();
     loadAssignments();
     loadAvailableJobs();
-    loadCompleted();
 });
 
 // Tab Navigation
@@ -66,7 +69,7 @@ function loadAssignments() {
     document.getElementById('earningsToday').textContent = '$' + completed.reduce((sum, item) => sum + Number(item.earning || 0), 0);
 
     const tbody = document.getElementById('tableBody');
-    
+
     if (assignments.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No active assignments</td></tr>';
         return;
@@ -89,12 +92,12 @@ function loadAssignments() {
 // Load Available Jobs
 function loadAvailableJobs() {
     let requests = JSON.parse(localStorage.getItem('pickupRequests')) || [];
-    
+
     // Filter for unassigned requests
     requests = requests.filter(r => r.status === 'pending');
 
     const jobsList = document.getElementById('jobsList');
-    
+
     if (requests.length === 0) {
         jobsList.innerHTML = '<p class="empty-state">No available jobs at the moment</p>';
         return;
@@ -248,11 +251,11 @@ function requestCompletion(requestId) {
 function loadCompleted() {
     const driver = getCurrentUser();
     let completed = JSON.parse(localStorage.getItem('driverCompleted')) || [];
-    
+
     completed = completed.filter(c => c.driverId === driver.email);
 
     const tbody = document.getElementById('completedBody');
-    
+
     if (completed.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No completed pickups yet</td></tr>';
         return;

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airport Pickup & Delivery Scheduler - Login</title>
     <link rel="stylesheet" href="login-styles.css">
 </head>
+
 <body>
     <div class="login-container">
         <!-- Logo Section -->
@@ -16,31 +18,54 @@
 
         <!-- Login Card -->
         <div class="login-card">
-            <h2 id="loginTitle">Login</h2>
-            <p id="roleDescription" class="role-description">Login with your account credentials to access your dashboard.</p>
+            <h2 id="loginTitle">Customer Login</h2>
+            <p id="roleDescription" class="role-description">Select a role and login with the correct account.</p>
+
+            <div class="role-tabs">
+                <button type="button" class="role-tab active" data-role="customer">Customer</button>
+                <button type="button" class="role-tab" data-role="driver">Delivery Partner</button>
+                <button type="button" class="role-tab" data-role="admin">Admin</button>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="role-selector">
+                <label>Select Your Role:</label>
+                <div class="role-options">
+                    <label class="role-radio">
+                        <input type="radio" name="role" value="customer" checked>
+                        <span class="role-label">
+                            <span class="role-icon">👤</span>
+                            <span class="role-name">Customer</span>
+                        </span>
+                    </label>
+                    <label class="role-radio">
+                        <input type="radio" name="role" value="driver">
+                        <span class="role-label">
+                            <span class="role-icon">🚗</span>
+                            <span class="role-name">Delivery Partner</span>
+                        </span>
+                    </label>
+                    <label class="role-radio">
+                        <input type="radio" name="role" value="admin">
+                        <span class="role-label">
+                            <span class="role-icon">⚙️</span>
+                            <span class="role-name">Admin</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
 
             <!-- Login Form -->
             <form id="loginForm" class="login-form">
                 <div class="form-group">
                     <label for="username">Username or Email</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Enter your username or email"
-                        required
-                    >
+                    <input type="text" id="username" name="username" placeholder="Enter your username or email"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Enter your password"
-                        required
-                    >
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
 
                 <div class="form-group checkbox">
@@ -127,12 +152,14 @@
 
                 <div class="form-group">
                     <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
+                    <input type="password" id="signup-password" name="password" placeholder="Create a password"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="signup-confirm">Confirm Password</label>
-                    <input type="password" id="signup-confirm" name="confirm" placeholder="Confirm your password" required>
+                    <input type="password" id="signup-confirm" name="confirm" placeholder="Confirm your password"
+                        required>
                 </div>
 
                 <button type="submit" class="btn-signup">Sign Up</button>
@@ -147,4 +174,5 @@
 
     <script src="login.js"></script>
 </body>
+
 </html>

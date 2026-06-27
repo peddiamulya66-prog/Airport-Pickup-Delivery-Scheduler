@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airport Pickup & Delivery Scheduler</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <!-- Header -->
@@ -34,33 +36,33 @@
                 <form id="pickupForm">
                     <div class="form-group">
                         <label for="customerName">Customer Name *</label>
-                        <input type="text" id="customerName" name="customerName" required placeholder="Enter customer name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="customerEmail">Customer Email</label>
-                        <input type="email" id="customerEmail" name="customerEmail" placeholder="Enter customer email">
+                        <input type="text" id="customerName" name="customerName" required
+                            placeholder="Enter customer name">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="originAirport">Origin Airport *</label>
-                            <input type="text" id="originAirport" name="originAirport" required placeholder="e.g., DEL, BOM">
+                            <input type="text" id="originAirport" name="originAirport" required
+                                placeholder="e.g., DEL, BOM">
                         </div>
                         <div class="form-group">
                             <label for="destinationAirport">Destination Airport *</label>
-                            <input type="text" id="destinationAirport" name="destinationAirport" required placeholder="e.g., DEL, BOM">
+                            <input type="text" id="destinationAirport" name="destinationAirport" required
+                                placeholder="e.g., DEL, BOM">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="pickupCity">Pickup City *</label>
-                            <input type="text" id="pickupCity" name="pickupCity" required placeholder="e.g., Delhi, Mumbai">
+                            <input type="text" id="pickupCity" name="pickupCity" required
+                                placeholder="e.g., Delhi, Mumbai">
                         </div>
                         <div class="form-group">
                             <label for="deliveryAddress">Delivery Address *</label>
-                            <input type="text" id="deliveryAddress" name="deliveryAddress" required placeholder="Enter delivery address">
+                            <input type="text" id="deliveryAddress" name="deliveryAddress" required
+                                placeholder="Enter delivery address">
                         </div>
                     </div>
 
@@ -85,7 +87,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="actualWeight">Actual Weight (kg) *</label>
-                            <input type="number" id="actualWeight" name="actualWeight" required step="0.01" placeholder="0.00">
+                            <input type="number" id="actualWeight" name="actualWeight" required step="0.01"
+                                placeholder="0.00">
                         </div>
                         <div class="form-group">
                             <label for="dimensions">Dimensions (L×W×H cm)</label>
@@ -216,4 +219,5 @@
     </script>
     <script src="app.js"></script>
 </body>
+
 </html>

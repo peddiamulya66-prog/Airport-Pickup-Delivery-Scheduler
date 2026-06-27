@@ -58,9 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user) {
         redirectToDashboard(user.role);
     }
-    
+
     setupLoginForm();
     setupSignupForm();
+    setupRoleTabs();
 });
 
 // Setup login form
@@ -69,51 +70,91 @@ function setupLoginForm() {
     loginForm.addEventListener('submit', handleLogin);
 }
 
+// Setup role tabs for separate customer/driver/admin login
+function setupRoleTabs() {
+    const tabs = document.querySelectorAll('.role-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            setRole(tab.dataset.role);
+        });
+    });
+}
+
+function setRole(role) {
+    document.querySelectorAll('.role-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.role === role);
+    });
+
+    const radio = document.querySelector(`input[name="role"][value="${role}"]`);
+    if (radio) {
+        radio.checked = true;
+    }
+
+    const title = document.getElementById('loginTitle');
+    const description = document.getElementById('roleDescription');
+    if (role === 'customer') {
+        title.textContent = 'Customer Login';
+        description.textContent = 'Login with your customer credentials to see your orders and delivery status.';
+    } else if (role === 'driver') {
+        title.textContent = 'Delivery Partner Login';
+        description.textContent = 'Login with your delivery partner account to manage assigned deliveries and earnings.';
+    } else if (role === 'admin') {
+        title.textContent = 'Admin Login';
+        description.textContent = 'Login with your admin credentials to see full order and delivery partner details.';
+    }
+}
+
 // Handle login
 function handleLogin(e) {
     e.preventDefault();
-    
+
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
+    const role = document.querySelector('input[name="role"]:checked').value;
     const remember = document.getElementById('remember').checked;
-    
+
     const errorDiv = document.getElementById('loginError');
     const successDiv = document.getElementById('loginSuccess');
-    
+
     // Clear previous messages
     errorDiv.classList.remove('show');
     successDiv.classList.remove('show');
-    
+
     // Validate
     if (!username || !password) {
         showError('Please enter username and password', errorDiv);
         return;
     }
-    
+
     // Check credentials (demo only - in production use backend API)
     const user = DEMO_USERS[username];
-    
+
     if (!user || user.password !== password) {
         showError('Invalid username or password', errorDiv);
         return;
     }
-    
+
+    if (user.role !== role) {
+        showError(`This account is registered as ${user.role}, but you selected ${role}`, errorDiv);
+        return;
+    }
+
     // Login successful
     const userData = {
         email: username,
         name: user.name,
-        role: user.role,
+        role: role,
         loginTime: new Date().toISOString(),
         remember: remember
     };
-    
+
     localStorage.setItem('currentUser', JSON.stringify(userData));
-    
+
     showSuccess('Login successful! Redirecting...', successDiv);
-    
+
     // Redirect after 1 second
     setTimeout(() => {
-        redirectToDashboard(user.role);
+        redirectToDashboard(role);
     }, 1000);
 }
 
@@ -126,43 +167,43 @@ function setupSignupForm() {
 // Handle signup
 function handleSignup(e) {
     e.preventDefault();
-    
+
     const name = document.getElementById('signup-name').value.trim();
     const email = document.getElementById('signup-email').value.trim();
     const phone = document.getElementById('signup-phone').value.trim();
     const role = document.querySelector('input[name="signup-role"]:checked').value;
     const password = document.getElementById('signup-password').value;
     const confirm = document.getElementById('signup-confirm').value;
-    
+
     const errorDiv = document.getElementById('signupError');
     errorDiv.classList.remove('show');
-    
+
     // Validation
     if (!name || !email || !phone || !password || !confirm) {
         showError('Please fill all fields', errorDiv);
         return;
     }
-    
+
     if (password !== confirm) {
         showError('Passwords do not match', errorDiv);
         return;
     }
-    
+
     if (password.length < 6) {
         showError('Password must be at least 6 characters', errorDiv);
         return;
     }
-    
+
     if (!email.includes('@')) {
         showError('Please enter a valid email', errorDiv);
         return;
     }
-    
+
     if (DEMO_USERS[email]) {
         showError('This email is already registered', errorDiv);
         return;
     }
-    
+
     // In production, send to backend
     // For demo, just add to local storage
     const newUser = {
@@ -173,7 +214,7 @@ function handleSignup(e) {
         role: role,
         createdAt: new Date().toISOString()
     };
-    
+
     // Save to localStorage (demo)
     DEMO_USERS[email] = {
         password: password,
@@ -186,10 +227,10 @@ function handleSignup(e) {
         role: role,
         name: name
     });
-    
+
     alert('✓ Account created successfully!\n\nYou can now login with your email and password.');
     toggleSignup();
-    
+
     // Populate login form
     document.getElementById('username').value = email;
     document.getElementById('password').value = '';
@@ -200,10 +241,10 @@ function handleSignup(e) {
 function toggleSignup() {
     const loginCard = document.querySelector('.login-card');
     const signupCard = document.getElementById('signupCard');
-    
+
     loginCard.classList.toggle('hidden');
     signupCard.classList.toggle('hidden');
-    
+
     // Clear forms and messages
     document.getElementById('loginForm').reset();
     document.getElementById('signupForm').reset();
